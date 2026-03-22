@@ -19,75 +19,64 @@ To write a PYTHON program for socket for HTTP for web page upload and download
 <BR>
 ## Program
 
-CLIENT.py
-
 ```
 import socket
 
-client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+host = 'localhost'
+port = 8000 # Use a common web port like 8080
 
-client.connect(("127.0.0.1", 8080))
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.bind((host, port))
+s.listen(5)
 
-request = "GET / HTTP/1.1\r\nHost: localhost\r\n\r\n"
+print(f"Server running at http://{host}:{port}/")
 
-client.send(request.encode())
+while True:
+    conn, addr = s.accept()
+    print("Connected by", addr)
+    request = conn.recv(1024).decode()
+    print("Request received:\n", request)
 
-data = client.recv(4096)
+    try:
+        with open("index.html", "rb") as f:
+            response_body = f.read()
+        response_header = (
+            "HTTP/1.1 200 OK\r\n"
+            "Content-Type: text/html\r\n"
+            f"Content-Length: {len(response_body)}\r\n"
+            "Connection: close\r\n"
+            "\r\n"
+        ).encode()
+        conn.sendall(response_header + response_body)
+    except FileNotFoundError:
+        response = "HTTP/1.1 404 Not Found\r\n\r\nFile not found".encode()
+        conn.sendall(response)
 
-print("Server Response:\n")
-print(data.decode())
-
-client.close()
-```
-
-SERVER.py
-
-```
-import socket
-
-server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-server.bind(("127.0.0.1", 8080))
-server.listen(1)
-
-print("Server started... Waiting for connection")
-
-conn, addr = server.accept()
-print("Connected by:", addr)
-
-request = conn.recv(1024).decode()
-print("Request from client:")
-print(request)
-
-file = open("index.html", "r")
-content = file.read()
-
-response = "HTTP/1.1 200 OK\n\n" + content
-
-conn.send(response.encode())
-
-conn.close()
-server.close()
+    conn.close()
 
 ```
 
 index.html
 
 ```
+<!DOCTYPE html>
 <html>
 <head>
-<title>My Web Page</title>
+    <title>Python Socket Server</title>
 </head>
-
 <body>
-<h1>Welcome to Socket Programming</h1>
-<p>This page is uploaded from Python Server</p>
+    <h1>Hello from Python socket server</h1>
+    <p>This page is served by your Python socket server!</p>
 </body>
-
 </html>
-```
-## OUTPUT
 
-![alt text](image.png)
+```
+
+
+## OUTPUT
+<img width="1919" height="1140" alt="image" src="https://github.com/user-attachments/assets/cccec173-5372-4aec-938a-599e796a6206" />
+<img width="1919" height="1090" alt="image" src="https://github.com/user-attachments/assets/2e566f5f-aa61-4284-96e5-0844ffd7ec4b" />
+
+
 ## Result
 Thus the socket for HTTP for web page upload and download created and Executed
