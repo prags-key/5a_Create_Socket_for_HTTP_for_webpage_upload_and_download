@@ -74,8 +74,9 @@ index.html
 
 
 ## OUTPUT
-<img width="1919" height="1140" alt="image" src="https://github.com/user-attachments/assets/cccec173-5372-4aec-938a-599e796a6206" />
-<img width="1919" height="1090" alt="image" src="https://github.com/user-attachments/assets/2e566f5f-aa61-4284-96e5-0844ffd7ec4b" />
+<img width="1518" height="1126" alt="image" src="https://github.com/user-attachments/assets/b59a186f-5312-4336-a4c8-166aa116ceb9" />
+<img width="1245" height="1148" alt="image" src="https://github.com/user-attachments/assets/0be3e8df-d566-4e7e-94a8-df617e806b90" />
+
 
 
 ## Result
